@@ -64,7 +64,7 @@ process.stdin.on("data", function(buffer) {
 
 app.get("/api/:id",(req,res) => {
     console.log(req.query);
-    let para = Object.keys(req.query).map((k,i) => k+"="+(Object.values(req.query)[i].replace(/ /g,"\\s").replace(/\|/g,"\\p"))).join(" ");
+    let para = Object.keys(req.query).map((k,i) => k+(Object.values(req.query)[i] ? ("="+(Object.values(req.query)[i].replace(/ /g,"\\s").replace(/\|/g,"\\p"))) : "")).join(" ");
     console.log(`${req.params.id} ${para}`); //`${k}=${req.query[i]}`
     tSocket.write(`${req.params.id} ${para}\n`.toString("utf8"));
     setTimeout(() =>
@@ -78,4 +78,4 @@ app.get("/api/:id",(req,res) => {
 })
 
 app.listen(process.env.PORT | 5006);
-console.log("http://localhost:5006");
+console.log("http://localhost:" + process.env.PORT | 5006);
